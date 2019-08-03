@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<appender name="SYSLOG"
+		class="jp.imanaga.sample.rsyslog.MySyslogAppender">
+		<syslogHost>192.168.99.101</syslogHost>
+		<facility>LOCAL0</facility>
+		<suffixPattern>SYSLOG %msg</suffixPattern>
+		<maxMessageSize>100</maxMessageSize>
+	</appender>
+
+	<appender name="ALERT_SYSLOG"
+		class="ch.qos.logback.classic.net.SyslogAppender">
+		<syslogHost>192.168.99.101</syslogHost>
+		<facility>LOCAL0</facility>
+		<suffixPattern>ALERT_SYSLOG %msg</suffixPattern>
+	</appender>
+
+	<logger name="ALERT" level="DEBUG" additivity="false">
+		<appender-ref ref="ALERT_SYSLOG" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="SYSLOG" />
+	</root>
+
+</configuration>
