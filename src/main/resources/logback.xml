@@ -2,7 +2,7 @@
 <configuration>
 
 	<appender name="SYSLOG"
-		class="jp.imanaga.sample.rsyslog.MySyslogAppender">
+		class="jp.imanaga.sample.rsyslog.MultiLineSyslogAppender">
 		<syslogHost>192.168.99.101</syslogHost>
 		<facility>LOCAL0</facility>
 		<suffixPattern>SYSLOG %msg</suffixPattern>
