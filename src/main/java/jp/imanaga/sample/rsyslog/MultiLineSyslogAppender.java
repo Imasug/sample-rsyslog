@@ -17,7 +17,7 @@ public class MultiLineSyslogAppender extends SyslogAppender {
 	Logger alertLogger = LoggerFactory.getLogger("ALERT");
 
 	// https://tools.ietf.org/html/rfc3164
-	final Pattern pattern = Pattern.compile("^(<.*>.{15} [^\\s]* )([\\s\\S]*)$");
+	final Pattern pattern = Pattern.compile("^(<.*>.{15} [^\\s]* [^\\s]* )([\\s\\S]*)$");
 
 	int maxMessageSize = 65000;
 
@@ -37,14 +37,12 @@ public class MultiLineSyslogAppender extends SyslogAppender {
 		if (matcher.find()) {
 
 			String prefix = matcher.group(1);
-			String suffix = matcher.group(2).replace("\t", "    ");
+			String suffix = matcher.group(2);
 
 			try (SyslogOutputStream sos = createOutputStream();) {
-				for (String partSuffix : suffix.split("\r\n|\r|\n", -1)) {
-					for (String msg : Splitter.fixedLength(maxMessageSize).split(partSuffix)) {
-						sos.write(new StringBuilder(prefix).append(msg).toString().getBytes(getCharset()));
-						sos.flush();
-					}
+				for (String msg : Splitter.fixedLength(maxMessageSize).split(suffix)) {
+					sos.write(new StringBuilder(prefix).append(msg).toString().getBytes(getCharset()));
+					sos.flush();
 				}
 				postProcess(eventObject, sos);
 			} catch (Exception e) {

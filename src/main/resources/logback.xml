@@ -6,7 +6,7 @@
 		<syslogHost>192.168.99.101</syslogHost>
 		<facility>LOCAL0</facility>
 		<suffixPattern>SYSLOG %msg</suffixPattern>
-		<maxMessageSize>100</maxMessageSize>
+		<maxMessageSize>5</maxMessageSize>
 	</appender>
 
 	<appender name="ALERT_SYSLOG"
